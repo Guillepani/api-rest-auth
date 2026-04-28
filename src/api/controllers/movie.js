@@ -18,6 +18,15 @@ const createMovie = async (req, res) => {
   }
 }
 
+const getMovies = async (req, res) => {
+  try {
+    const movies = await Movie.find()
+    return res.status(200).json(movies)
+  } catch (error) {
+    return res.status(400).json('Error al obtener movies')
+  }
+}
+
 const deleteMovie = async (req, res) => {
   console.log('DELETE HIT')
   try {
@@ -43,4 +52,4 @@ const deleteMovie = async (req, res) => {
   }
 }
 
-module.exports = { createMovie, deleteMovie }
+module.exports = { createMovie, getMovies, deleteMovie }
