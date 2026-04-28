@@ -4,6 +4,7 @@ const cors = require('cors')
 const connectDB = require('./config/db')
 
 const authRoutes = require('./api/routes/auth')
+const movieRoutes = require('./api/routes/movie')
 
 connectDB()
 
@@ -13,6 +14,7 @@ app.use(cors())
 app.use(express.json())
 
 app.use('/api/v1/auth', authRoutes)
+app.use('/api/v1/movies', movieRoutes)
 
 app.get('/', (req, res) => {
   res.send('API funcionando correctamente')
