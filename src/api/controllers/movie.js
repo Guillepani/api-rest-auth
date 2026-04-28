@@ -20,7 +20,7 @@ const createMovie = async (req, res) => {
 
 const getMovies = async (req, res) => {
   try {
-    const movies = await Movie.find()
+    const movies = await Movie.find().populate('category')
     return res.status(200).json(movies)
   } catch (error) {
     return res.status(400).json('Error al obtener movies')

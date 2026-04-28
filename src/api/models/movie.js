@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 
 const movieSchema = new mongoose.Schema(
   {
+    category: { type: mongoose.Types.ObjectId, ref: 'categories' },
     title: { type: String, required: true },
     year: { type: Number },
     img: { type: String }
