@@ -6,6 +6,8 @@ const register = async (req, res) => {
   try {
     const newUser = new User(req.body)
 
+    newUser.role = 'user'
+
     const salt = 10
     newUser.password = bcrypt.hashSync(newUser.password, salt)
 
