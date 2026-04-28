@@ -27,6 +27,24 @@ const getMovies = async (req, res) => {
   }
 }
 
+const updateMovie = async (req, res) => {
+  try {
+    const { id } = req.params
+
+    const movieUpdated = await Movie.findByIdAndUpdate(id, req.body, {
+      new: true
+    })
+
+    if (!movieUpdated) {
+      return res.status(404).json('Movie no encontrada')
+    }
+
+    return res.status(200).json(movieUpdated)
+  } catch (error) {
+    return res.status(400).json('Error al actualizar movie')
+  }
+}
+
 const deleteMovie = async (req, res) => {
   console.log('DELETE HIT')
   try {
@@ -52,4 +70,4 @@ const deleteMovie = async (req, res) => {
   }
 }
 
-module.exports = { createMovie, getMovies, deleteMovie }
+module.exports = { createMovie, getMovies, updateMovie, deleteMovie }
