@@ -45,4 +45,42 @@ const login = async (req, res) => {
   }
 }
 
-module.exports = { register, login }
+const updateUserRole = async (req, res) => {
+  try {
+    const { id } = req.params
+    const { role } = req.body
+
+    const userUpdated = await User.findByIdAndUpdate(
+      id,
+      { role },
+      { new: true }
+    )
+
+    return res.status(200).json(userUpdated)
+  } catch (error) {
+    return res.status(400).json('Error al actualizar rol')
+  }
+}
+
+const deleteUser = async (req, res) => {
+  try {
+    const { id } = req.params
+
+    // si no es admin, solo puede borrarse a si mismo
+    if (req.user.role !== 'admin' && req.user.id !== id) {
+      return res.status(403).json('No tienes permisos')
+    }
+
+    const userDeleted = await User.findByIdAndDelete(id)
+
+    if (!userDeleted) {
+      return res.status(404).json('Usuario no encontrado')
+    }
+
+    return res.status(200).json(userDeleted)
+  } catch (error) {
+    return res.status(400).json('Error al eliminar usuario')
+  }
+}
+
+module.exports = { register, login, updateUserRole, deleteUser }
