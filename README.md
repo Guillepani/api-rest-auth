@@ -12,6 +12,16 @@ API REST desarrollada con Node.js, Express y MongoDB que permite autenticación 
 - JWT (jsonwebtoken)
 - Bcrypt
 
+## Modelos
+
+- User
+- Movie
+- Category
+
+## Relaciones
+
+- Movie → Category (populate)
+
 ## Endpoints
 
 ### Auth
@@ -23,6 +33,7 @@ API REST desarrollada con Node.js, Express y MongoDB que permite autenticación 
 
 - GET /api/v1/movies
 - POST /api/v1/movies
+- PUT /api/v1/movies/:id
 - DELETE /api/v1/movies/:id
 
 ## Subida de archivos
@@ -33,17 +44,32 @@ Las imágenes se suben mediante multipart/form-data usando el campo:
 
 ## Variables de entorno
 
-Crear un archivo .env con:
+Crear un archivo `.env` con:
 
 MONGO_URI=
 CLOUD_NAME=
 API_KEY=
 API_SECRET=
 
+## Seguridad
+
+Algunos endpoints requieren autenticación mediante JWT.
+
+Header:
+Authorization: Bearer TOKEN
+
+Endpoints protegidos:
+
+- POST /api/v1/movies
+- PUT /api/v1/movies/:id
+- DELETE /api/v1/movies/:id
+
 ## Funcionalidades
 
 - Registro y login de usuarios
 - Autenticación con JWT
 - Roles (user / admin)
+- CRUD completo de movies
+- Relación entre colecciones
 - Subida de imágenes a Cloudinary
 - Eliminación de imágenes en Cloudinary al borrar recursos
