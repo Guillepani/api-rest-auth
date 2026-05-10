@@ -1,4 +1,5 @@
 const Movie = require('../models/movie')
+const mongoose = require('mongoose')
 const { cloudinary } = require('../../config/cloudinary')
 
 const createMovie = async (req, res) => {
@@ -21,6 +22,7 @@ const createMovie = async (req, res) => {
 const getMovies = async (req, res) => {
   try {
     const movies = await Movie.find().populate('category user')
+
     return res.status(200).json(movies)
   } catch (error) {
     return res.status(400).json('Error al obtener movies')
@@ -30,6 +32,10 @@ const getMovies = async (req, res) => {
 const updateMovie = async (req, res) => {
   try {
     const { id } = req.params
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json('ID no válido')
+    }
 
     const movieUpdated = await Movie.findByIdAndUpdate(id, req.body, {
       new: true
@@ -47,8 +53,13 @@ const updateMovie = async (req, res) => {
 
 const deleteMovie = async (req, res) => {
   console.log('DELETE HIT')
+
   try {
     const { id } = req.params
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json('ID no válido')
+    }
 
     const movieDeleted = await Movie.findByIdAndDelete(id)
 
@@ -60,7 +71,9 @@ const deleteMovie = async (req, res) => {
       const imgUrl = movieDeleted.img
       const imgName = imgUrl.split('/').pop().split('.')[0]
 
-      await cloudinary.uploader.destroy(`api-rest-files/${imgName}`)
+      await cloudinary.uploader.destroy(
+        `${process.env.CLOUDINARY_FOLDER}/${imgName}`
+      )
     }
 
     return res.status(200).json(movieDeleted)
@@ -70,4 +83,9 @@ const deleteMovie = async (req, res) => {
   }
 }
 
-module.exports = { createMovie, getMovies, updateMovie, deleteMovie }
+module.exports = {
+  createMovie,
+  getMovies,
+  updateMovie,
+  deleteMovie
+}

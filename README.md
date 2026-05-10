@@ -1,16 +1,23 @@
 # API REST Files
 
-API REST desarrollada con Node.js, Express y MongoDB que permite autenticación de usuarios, gestión de roles, relaciones entre colecciones y subida de archivos multimedia a Cloudinary.
+API REST desarrollada con Node.js, Express y MongoDB que incluye autenticación JWT, gestión de usuarios con roles, relaciones entre colecciones y subida de archivos multimedia a Cloudinary.
+
+---
 
 ## Tecnologías
 
 - Node.js
 - Express
-- MongoDB (Mongoose)
-- Cloudinary
-- Multer
-- JWT (jsonwebtoken)
+- MongoDB Atlas
+- Mongoose
+- JWT
 - Bcrypt
+- Multer
+- Cloudinary
+- Nodemon
+- Dotenv
+
+---
 
 ## Modelos
 
@@ -18,82 +25,153 @@ API REST desarrollada con Node.js, Express y MongoDB que permite autenticación 
 - Movie
 - Category
 
+---
+
 ## Relaciones
 
-- Movie → Category (populate)
-- Movie → User (populate)
+- Movie → Category
+- Movie → User
+
+---
+
+## Instalación
+
+Clonar repositorio:
+
+```bash
+git clone https://github.com/Guillepani/api-rest-files.git
+```
+
+Instalar dependencias:
+
+```bash
+npm install
+```
+
+Crear archivo `.env`:
+
+```env
+MONGO_URI=mongo_uri
+JWT_SECRET=jwt_secret
+CLOUD_NAME=cloud_name
+API_KEY=api_key
+API_SECRET=api_secret
+CLOUDINARY_FOLDER=cloudinary_folder
+```
+
+---
+
+## Scripts
+
+| Script | Descripción |
+|---|---|
+| npm run dev | Inicia el servidor con nodemon |
+| npm run seed | Ejecuta la semilla |
+
+---
 
 ## Endpoints
 
 ### Auth
 
-- POST /api/v1/auth/register
-- POST /api/v1/auth/login
-- PUT /api/v1/auth/role/:id (admin)
-- DELETE /api/v1/auth/:id (admin o propio usuario)
+| Método | Endpoint | Descripción |
+|---|---|---|
+| POST | /api/v1/auth/register | Registro de usuario |
+| POST | /api/v1/auth/login | Login de usuario |
+| PUT | /api/v1/auth/role/:id | Actualizar rol (admin) |
+| DELETE | /api/v1/auth/:id | Eliminar usuario |
+
+---
+
+### Users
+
+| Método | Endpoint | Descripción |
+|---|---|---|
+| GET | /api/v1/users | Obtener usuarios |
+| GET | /api/v1/users/:id | Obtener usuario por ID |
+
+---
 
 ### Movies
 
-- GET /api/v1/movies
-- POST /api/v1/movies
-- PUT /api/v1/movies/:id
-- DELETE /api/v1/movies/:id
+| Método | Endpoint | Descripción |
+|---|---|---|
+| GET | /api/v1/movies | Obtener movies |
+| POST | /api/v1/movies | Crear movie |
+| PUT | /api/v1/movies/:id | Actualizar movie |
+| DELETE | /api/v1/movies/:id | Eliminar movie |
+
+---
 
 ### Categories
 
-- GET /api/v1/categories
-- POST /api/v1/categories
+| Método | Endpoint | Descripción |
+|---|---|---|
+| GET | /api/v1/categories | Obtener categories |
+| POST | /api/v1/categories | Crear category |
+| PUT | /api/v1/categories/:id | Actualizar category |
+| DELETE | /api/v1/categories/:id | Eliminar category |
+
+---
 
 ## Subida de archivos
 
 Las imágenes se suben mediante multipart/form-data usando el campo:
 
-- img (tipo File)
+```txt
+img
+```
 
-## Seed de datos
+---
+
+## Seed
 
 Ejecutar:
 
-node seed.js
+```bash
+npm run seed
+```
 
-## Variables de entorno
-
-Crear un archivo `.env` con:
-
-MONGO_URI=
-CLOUD_NAME=
-API_KEY=
-API_SECRET=
+---
 
 ## Seguridad
 
-Algunos endpoints requieren autenticación mediante JWT.
+Algunos endpoints requieren autenticación JWT.
 
 Header:
+
+```txt
 Authorization: Bearer TOKEN
+```
 
-Endpoints protegidos:
-
-- POST /api/v1/movies
-- PUT /api/v1/movies/:id
-- DELETE /api/v1/movies/:id
-- PUT /api/v1/auth/role/:id
-- DELETE /api/v1/auth/:id
+---
 
 ## Gestión de roles
 
-- Los usuarios se crean siempre con rol "user"
-- Un admin puede cambiar el rol de otros usuarios
+- Los usuarios se registran con rol `user`
+- Un admin puede cambiar roles
 - Un admin puede eliminar cualquier usuario
-- Un usuario solo puede eliminarse a sí mismo
+- Un usuario puede eliminarse a sí mismo
+
+---
 
 ## Funcionalidades
 
-- Registro y login de usuarios
-- Autenticación con JWT
-- Roles (user / admin)
+- Registro y login
+- Autenticación JWT
+- Roles user/admin
 - CRUD completo de movies
-- CRUD básico de categories
-- Relación entre colecciones
+- CRUD completo de categories
+- Lectura de usuarios
+- Relaciones entre colecciones
+- Populate con Mongoose
 - Subida de imágenes a Cloudinary
-- Eliminación de imágenes en Cloudinary al borrar recursos
+- Eliminación de imágenes en Cloudinary
+- Variables de entorno protegidas
+- Validación de ObjectIds
+
+---
+
+## Autor
+
+Guillem Paniagua

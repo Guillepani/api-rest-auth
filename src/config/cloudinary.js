@@ -10,7 +10,7 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
   cloudinary,
   params: {
-    folder: 'api-rest-files',
+    folder: process.env.CLOUDINARY_FOLDER,
     allowed_formats: ['jpg', 'png', 'jpeg', 'webp']
   }
 })
